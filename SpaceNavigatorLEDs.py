@@ -8,6 +8,27 @@ from time import gmtime, strftime
 import time
 import RPi.GPIO as GPIO
 
+def setAxisPins( negPin, posPin, val ):
+   "Set the pins for an axis"
+   # light up either -tive or +tive LED                
+   if val < 0:
+       posVal = GPIO.LOW
+       negVal = val/2*2 == val # flashing may be more interesting
+       negVal = GPIO.HIGH      # or more annoying
+   elif val > 0:
+       negVal = GPIO.LOW
+       posVal = val/2*2 == val
+       posVal = GPIO.HIGH
+   else:
+       posVal = GPIO.LOW
+       negVal = GPIO.LOW
+
+   GPIO.output(posPin, posVal)
+   GPIO.output(negPin, negVal)
+   return
+
+
+
 # Look for SpaceNavigator
 dev = usb.core.find(idVendor=0x46d, idProduct=0xc626)
 if dev is None:
@@ -88,30 +109,9 @@ while run:
                 tz -= 65536
             print "T: ", tx, ty, tz
 
-            # light up either -tive or +tive LED                
-            if tx < 0:
-                GPIO.output(TX_NEG_PIN, tx/2*2 == tx)
-            if tx > 0:
-                GPIO.output(TX_POS_PIN, tx/2*2 == tx)
-            if tx == 0:
-                GPIO.output(TX_NEG_PIN, GPIO.LOW)
-                GPIO.output(TX_POS_PIN, GPIO.LOW)
-
-            if ty < 0:
-                GPIO.output(TY_NEG_PIN, ty/2*2 == ty)
-            if ty > 0:
-                GPIO.output(TY_POS_PIN, ty/2*2 == ty)
-            if ty == 0:
-                GPIO.output(TY_NEG_PIN, GPIO.LOW)
-                GPIO.output(TY_POS_PIN, GPIO.LOW)
-            
-            if tz < 0:
-                GPIO.output(TZ_NEG_PIN, tz/2*2 == tz)
-            if tz > 0:
-                GPIO.output(TZ_POS_PIN, tz/2*2 == tz)
-            if tz == 0:
-                GPIO.output(TZ_NEG_PIN, GPIO.LOW)
-                GPIO.output(TZ_POS_PIN, GPIO.LOW)
+            setAxisPins(TX_NEG_PIN, TX_POS_PIN, tx)
+            setAxisPins(TY_NEG_PIN, TY_POS_PIN, ty)
+            setAxisPins(TZ_NEG_PIN, TZ_POS_PIN, tz)
 
         if data[0] == 2:
             # rotation packet
@@ -127,30 +127,9 @@ while run:
                 rz -= 65536
             print "R: ", rx, ry, rz
             
-            # light up either -tive or +tive LED                
-            if rx < 0:
-                GPIO.output(RX_NEG_PIN, rx/2*2 == rx)
-            if rx > 0:
-                GPIO.output(RX_POS_PIN, rx/2*2 == rx)
-            if rx == 0:
-                GPIO.output(RX_NEG_PIN, GPIO.LOW)
-                GPIO.output(RX_POS_PIN, GPIO.LOW)
-
-            if ry < 0:
-                GPIO.output(RY_NEG_PIN, ry/2*2 == ry)
-            if ry > 0:
-                GPIO.output(RY_POS_PIN, ry/2*2 == ry)
-            if ry == 0:
-                GPIO.output(RY_NEG_PIN, GPIO.LOW)
-                GPIO.output(RY_POS_PIN, GPIO.LOW)
-                
-            if rz < 0:
-                GPIO.output(RZ_NEG_PIN, rz/2*2 == rz)
-            if rz > 0:
-                GPIO.output(RZ_POS_PIN, rz/2*2 == rz)
-            if rz == 0:
-                GPIO.output(RZ_NEG_PIN, GPIO.LOW)
-                GPIO.output(RZ_POS_PIN, GPIO.LOW)
+            setAxisPins(RX_NEG_PIN, RX_POS_PIN, rx)
+            setAxisPins(RY_NEG_PIN, RY_POS_PIN, ry)
+            setAxisPins(RZ_NEG_PIN, RZ_POS_PIN, rz)
              
         if data[0] == 3 and data[1] == 0:
             # button packet - exit on the release
