@@ -14,3 +14,5 @@ SNLEDsPWM.py - reads the SN and lights up LEDs with an intensity proportional to
 
 SNLEDsPWMnl.py - same as SNLEDsPWM.py but uses a non-linear (squared) warping on the data to add more precision at the low end.
 The eye doesn't respond linearly to input.  This makes the LEDs look more responsive.  It is also probably more useful for motor control.
+
+SNDrive.py - SN drives a small tracked Pololu Zumo tank kit.  Two micromotors on the front wheels.  Ty goes forward/backwards.  Rz turns it.  Using the non-linear data it gives quite good user control.  With encoders on the motors, and a feedback loop, I could have exceptional control.
