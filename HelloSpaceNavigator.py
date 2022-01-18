@@ -11,18 +11,18 @@ dev = usb.core.find(idVendor=0x46d, idProduct=0xc626)
 if dev is None:
     raise ValueError('SpaceNavigator not found');
 else:
-    print ('SpaceNavigator found')
-    print dev
+    print('SpaceNavigator found')
+    print(dev)
 
 
 # Don't need all this but may want it for a full implementation
 
 cfg = dev.get_active_configuration()
-print 'cfg is ', cfg
+print('cfg is ', cfg)
 intf = cfg[(0,0)]
-print 'intf is ', intf
+print('intf is ', intf)
 ep = usb.util.find_descriptor(intf, custom_match = lambda e: usb.util.endpoint_direction(e.bEndpointAddress) == usb.util.ENDPOINT_IN)
-print 'ep is ', ep
+print('ep is ', ep)
 
 reattach = False
 if dev.is_kernel_driver_active(0):
@@ -32,9 +32,9 @@ if dev.is_kernel_driver_active(0):
 ep_in = dev[0][(0,0)][0]
 ep_out = dev[0][(0,0)][1]
 
-print ''
-print 'Exit by pressing any button on the SpaceNavigator'
-print ''
+print('')
+print('Exit by pressing any button on the SpaceNavigator')
+print('')
 
 run = True
 while run:
@@ -56,7 +56,7 @@ while run:
                 ty -= 65536
             if data[6] > 127:
                 tz -= 65536
-            print "T: ", tx, ty, tz
+            print("T: ", tx, ty, tz)
 
         if data[0] == 2:
             # rotation packet
@@ -70,7 +70,7 @@ while run:
                 ry -= 65536
             if data[6] > 127:
                 rz -= 65536
-            print "R: ", rx, ry, rz
+            print("R: ", rx, ry, rz)
             
         if data[0] == 3 and data[1] == 0:
             # button packet - exit on the release
