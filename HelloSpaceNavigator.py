@@ -35,17 +35,18 @@ ep_out = dev[0][(0,0)][1]
 print('')
 print('Exit by pressing any button on the SpaceNavigator')
 print('')
-print(ep_in.bLength)
+#print(ep_in.bLength)
 
 run = True
 while run:
     try:
         data = dev.read(ep_in.bEndpointAddress, 13, 0)
         # raw data
-        # print data
+        # print(data)
 
         # print it correctly T: x,y,z R: x,y,z
         if data[0] == 1:
+            print('translation')
             # translation packet
             tx = data[1] + (data[2]*256)
             ty = data[3] + (data[4]*256)
@@ -57,17 +58,17 @@ while run:
             if data[6] > 127:
                 tz -= 65536
             print("T: ", tx, ty, tz)
-
-        if data[0] == 2:
+            #if data[0] == 2:
+            print('rotation')
             # rotation packet
-            rx = data[1] + (data[2]*256)
-            ry = data[3] + (data[4]*256)
-            rz = data[5] + (data[6]*256)
-            if data[2] > 127:
+            rx = data[7] + (data[8]*256)
+            ry = data[9] + (data[10]*256)
+            rz = data[11] + (data[12]*256)
+            if data[8] > 127:
                 rx -= 65536
-            if data[4] > 127:
+            if data[10] > 127:
                 ry -= 65536
-            if data[6] > 127:
+            if data[12] > 127:
                 rz -= 65536
             print("R: ", rx, ry, rz)
         if data[0] == 3 and data[1] == 0:
