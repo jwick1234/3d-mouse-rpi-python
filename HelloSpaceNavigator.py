@@ -7,7 +7,7 @@ from time import gmtime, strftime
 import time
 
 # Look for SpaceNavigator
-dev = usb.core.find(idVendor=0x256f, idProduct=0xc652)
+dev = usb.core.find(idVendor=0x256f, idProduct=0xc631)
 if dev is None:
     raise ValueError('SpaceNavigator not found');
 else:
