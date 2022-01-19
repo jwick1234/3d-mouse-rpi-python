@@ -35,11 +35,12 @@ ep_out = dev[0][(0,0)][1]
 print('')
 print('Exit by pressing any button on the SpaceNavigator')
 print('')
+print(ep_in.bLength)
 
 run = True
 while run:
     try:
-        data = dev.read(ep_in.bEndpointAddress, ep_in.bLength, 0)
+        data = dev.read(ep_in.bEndpointAddress, 13, 0)
         # raw data
         # print data
 
@@ -49,7 +50,6 @@ while run:
             tx = data[1] + (data[2]*256)
             ty = data[3] + (data[4]*256)
             tz = data[5] + (data[6]*256)
-            
             if data[2] > 127:
                 tx -= 65536
             if data[4] > 127:
@@ -63,7 +63,6 @@ while run:
             rx = data[1] + (data[2]*256)
             ry = data[3] + (data[4]*256)
             rz = data[5] + (data[6]*256)
-            
             if data[2] > 127:
                 rx -= 65536
             if data[4] > 127:
@@ -71,7 +70,6 @@ while run:
             if data[6] > 127:
                 rz -= 65536
             print("R: ", rx, ry, rz)
-            
         if data[0] == 3 and data[1] == 0:
             # button packet - exit on the release
             run = False
