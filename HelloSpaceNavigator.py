@@ -46,7 +46,7 @@ while run:
 
         # print it correctly T: x,y,z R: x,y,z
         if data[0] == 1:
-            print('translation')
+            print('translation & rotation')
             # translation packet
             tx = data[1] + (data[2]*256)
             ty = data[3] + (data[4]*256)
@@ -57,9 +57,9 @@ while run:
                 ty -= 65536
             if data[6] > 127:
                 tz -= 65536
-            print("T: ", tx, ty, tz)
-            #if data[0] == 2:
-            print('rotation')
+            # print("T: ", tx, ty, tz,)
+            # if data[0] == 2:
+            # print('rotation')
             # rotation packet
             rx = data[7] + (data[8]*256)
             ry = data[9] + (data[10]*256)
@@ -70,7 +70,7 @@ while run:
                 ry -= 65536
             if data[12] > 127:
                 rz -= 65536
-            print("R: ", rx, ry, rz)
+            print(" T: ",tx,ty,tz," R: ", rx, ry, rz)
         if data[0] == 3 and data[1] == 0:
             # button packet - exit on the release
             run = False
