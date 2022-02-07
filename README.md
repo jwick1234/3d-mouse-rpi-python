@@ -6,7 +6,7 @@ Unless otherwise mentioned, they have been developed on a RPi 3.
 
 HelloSpaceNavigator.py - opens a SpaceNavigator and prints the data to stdout
 
-## wildanxgifari modified the file for Space Mouse Pro
+### wildanxgifari modified the file for Space Mouse Pro
 
 SpaceNavigatorTxLEDs.py - reads a SN and lights up LEDs based on the data of the tx axis.  One LED for positive; one for negative direction.,
 
